@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
+import mongoengine
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-^f*5(j^qj-^r7)htf08-tb19u*k-$$5_4eq8y-ll40p%)u-o29
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'institucionesService',
 ]
 
 MIDDLEWARE = [
@@ -73,16 +75,28 @@ WSGI_APPLICATION = 'ofipensiones.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'instituciones_service',
-        'USER': 'microservicios_user',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': ,
+#         'USER': 'microservicios_user',
+#         'PASSWORD': 'password',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+MONGODB_DATABASES = {
+    "default": {
+        "name": 'instituciones-service',
+        "host": 'mongodb://microservicios_user:password@localhost:27017',
+        "tz_aware": True, # if you using timezones in django (USE_TZ = True)
+    },
 }
+
+mongoengine.connect(
+    db="instituciones-service",
+    host="mongodb://microservicios_user:password@localhost:27017",
+    authentication_source="admin")
 
 
 # Password validation
@@ -127,3 +141,4 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
