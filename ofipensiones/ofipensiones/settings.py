@@ -88,14 +88,14 @@ WSGI_APPLICATION = 'ofipensiones.wsgi.application'
 MONGODB_DATABASES = {
     "default": {
         "name": 'instituciones-service',
-        "host": 'mongodb://microservicios_user:password@localhost:27017',
+        "host": 'mongodb://microservicios_user:password@10.128.0.83:27017',
         "tz_aware": True, # if you using timezones in django (USE_TZ = True)
     },
 }
 
 mongoengine.connect(
     db="instituciones-service",
-    host="mongodb://microservicios_user:password@localhost:27017",
+    host="mongodb://microservicios_user:password@10.128.0.83:27017",
     authentication_source="admin")
 
 
