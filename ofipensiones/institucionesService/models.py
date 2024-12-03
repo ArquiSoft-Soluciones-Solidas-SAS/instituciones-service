@@ -1,4 +1,5 @@
 from mongoengine import Document, fields, EmbeddedDocument
+from dj_cqrs.mixins import MasterMixin
 
 class Curso(EmbeddedDocument):
     id = fields.ObjectIdField(primary_key=True, editable=False)
@@ -9,7 +10,9 @@ class Curso(EmbeddedDocument):
     def __str__(self):
         return f"{self.grado} - {self.numero}"
 
-class Institucion(Document):
+class Institucion(MasterMixin, Document):
+    CQRS_ID = 'instituciones-model'
+
     nombreInstitucion = fields.StringField(max_length=100)
     cursos = fields.ListField(fields.EmbeddedDocumentField(Curso))
 
