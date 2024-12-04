@@ -5,6 +5,7 @@ from .models import Institucion, Curso
 import factory.django
 from factory.mongoengine import MongoEngineFactory
 from faker_education import SchoolProvider
+from utils import send_to_rabbitmq
 
 class InstitucionFactory(MongoEngineFactory):
     class Meta:
@@ -19,6 +20,33 @@ class InstitucionFactory(MongoEngineFactory):
         for grado in ['Primero', 'Segundo', 'Tercero', 'Cuarto', 'Quinto', 'Sexto', 'Séptimo', 'Octavo', 'Noveno', 'Décimo', 'Undécimo']
         for numero in [1, 2]
     ])
+
+    @classmethod
+    def _after_postgeneration(cls, instance, create, results=None):
+        """
+        Publica un mensaje en RabbitMQ después de crear la institución.
+        """
+        if create:
+            message = {
+                "type": "institucion_created",
+                "data": {
+                    "id": str(instance.id),
+                    "nombreInstitucion": instance.nombreInstitucion,
+                    "cursos": [
+                        {"id": curso.id ,
+                         "grado": curso.grado,
+                         "numero": curso.numero,
+                         "anio": curso.anio}
+                        for curso in instance.cursos
+                    ]
+                }
+            }
+            send_to_rabbitmq(
+                exchange='instituciones',
+                routing_key='institucion.created',
+                message=message
+            )
+
 
 class CursoFactory(MongoEngineFactory):
     class Meta:

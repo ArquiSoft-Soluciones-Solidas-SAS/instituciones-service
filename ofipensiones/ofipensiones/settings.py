@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'institucionesService',
-    'dj_cqrs',
 ]
 
 MIDDLEWARE = [
@@ -142,11 +141,3 @@ PATH_API_GATEWAY = "http://" + os.environ.get("KONG_HOST", "10.128.0.81") + ":" 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CQRS settings
-CQRS = {
-    'transport': 'dj_cqrs.transport.RabbitMQTransport',
-    'host': '10.142.0.12',
-    'port': 5672,
-    'user': 'microservicios_user',
-    'password': 'password',
-}
