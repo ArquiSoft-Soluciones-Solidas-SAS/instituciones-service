@@ -33,7 +33,7 @@ class InstitucionFactory(MongoEngineFactory):
                     "id": str(instance.id),
                     "nombreInstitucion": instance.nombreInstitucion,
                     "cursos": [
-                        {"id": curso.id ,
+                        {"id": str(curso.id),
                          "grado": curso.grado,
                          "numero": curso.numero,
                          "anio": curso.anio}
