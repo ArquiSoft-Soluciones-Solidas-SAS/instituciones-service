@@ -5,7 +5,7 @@ from .models import Institucion, Curso
 import factory.django
 from factory.mongoengine import MongoEngineFactory
 from faker_education import SchoolProvider
-from utils import send_to_rabbitmq
+from .utils import send_to_rabbitmq
 
 class InstitucionFactory(MongoEngineFactory):
     class Meta:
