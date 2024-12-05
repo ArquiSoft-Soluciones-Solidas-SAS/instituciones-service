@@ -15,7 +15,7 @@ def post(request):
             nombreInstitucion="Institución de Prueba",
             cursos=[curso1, curso2]
         )
-        institucion.save()
+        institucion = institucion.save()
         send_to_rabbitmq(
             exchange='instituciones',
             routing_key='institucion.created',
